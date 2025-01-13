@@ -1,0 +1,6 @@
+// Add these capabilities
+CAPABILITIES = {
+  "com.apple.Push" = {enabled = 1;};
+  "com.apple.BackgroundModes" = {enabled = 1;};
+  "com.apple.SafariKeychain" = {enabled = 1;};
+};
