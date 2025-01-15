@@ -7,9 +7,10 @@ import TabBarText from "../components/utils/TabBarText";
 
 import Home from "../screens/Home";
 import About from "../screens/About";
-import Profile from "../screens/Profile";
+// import Profile from "../screens/Profile";
 import Simulation from "../screens/Simulation"; // Importing the Simulation screen
-import QuizScreen from "../screens/QuizScreen";
+import Quiz from "../screens/Quiz";
+import Course from "../screens/CourseData";
 
 const Tabs = createBottomTabNavigator();
 const MainTabs = () => {
@@ -61,11 +62,23 @@ const MainTabs = () => {
         }}
       />
       <Tabs.Screen
-        name="Profile"
-        component={QuizScreen}
+        name="Quiz"
+        component={Quiz}
         options={{
           tabBarLabel: ({ focused }) => (
             <TabBarText focused={focused} title="Kuis" />
+          ),
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} icon={"person"} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="Course"
+        component={Course}
+        options={{
+          tabBarLabel: ({ focused }) => (
+            <TabBarText focused={focused} title="Course" />
           ),
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} icon={"person"} />

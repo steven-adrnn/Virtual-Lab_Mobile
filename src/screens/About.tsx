@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   blurOverlay: {
     ...StyleSheet.absoluteFillObject, // Menutupi seluruh layar
     backgroundColor: "rgba(255, 255, 255, 0.2)", // Transparansi untuk efek buram
-    backdropFilter: "blur(20px)", // Blur untuk platform web
+    // backdropFilter: "blur(20px)", // Blur untuk platform web
     zIndex: 1, // Pastikan lapisan ini berada di atas gambar
   },
   container: {

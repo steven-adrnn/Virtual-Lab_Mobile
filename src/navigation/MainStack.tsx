@@ -1,8 +1,11 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import SecondScreen from "../screens/SecondScreen";
+// import SecondScreen from "../screens/SecondScreen";
 import MainTabs from "./MainTabs";
+import Simulation from "../screens/Simulation";
+import Course from "../screens/CourseData";
+import Quiz from "../screens/Quiz";
 
 const MainStack = createNativeStackNavigator();
 const Main = () => {
@@ -13,7 +16,10 @@ const Main = () => {
       }}
     >
       <MainStack.Screen name="MainTabs" component={MainTabs} />
-      <MainStack.Screen name="SecondScreen" component={SecondScreen} />
+      <MainStack.Screen name="Simulation" component={Simulation} />
+      <MainStack.Screen name="Course" component={Course} />
+      <MainStack.Screen name="Quiz" component={Quiz} />
+      {/* <MainStack.Screen name="SecondScreen" component={SecondScreen} /> */}
     </MainStack.Navigator>
   );
 };

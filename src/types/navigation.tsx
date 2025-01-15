@@ -1,7 +1,9 @@
 export type MainStackParamList = {
 	MainTabs: undefined;
 	SecondScreen: undefined;
-	Simulation: undefined; // Added Simulation screen
+	Simulation: undefined; 
+	Course: undefined; // Updated from CourseData to Course
+	Quiz: undefined; 
 };
 
 export type AuthStackParamList = {
@@ -12,6 +14,8 @@ export type AuthStackParamList = {
 
 export type MainTabsParamList = {
 	Home: undefined;
-	Profile: undefined;
+	Quiz: undefined; // Updated from Profile to QuizScreen
 	About: undefined;
+	Simulation: undefined; 
+	Course: undefined; // Added Course entry
 };

@@ -30,7 +30,7 @@ const courseData = {
         worst: "O(n^2)",
         average: "O(n^2)",
       },
-      image: "https://example.com/bubble-sort-example.gif",
+      image: require("../../assets/images/Bubble-sort-example-300px.gif"),
     },
     {
       title: "Merge Sort",
@@ -46,7 +46,7 @@ const courseData = {
         worst: "O(n log n)",
         average: "O(n log n)",
       },
-      image: "https://example.com/merge-sort-example.png",
+      image: require("../../assets/images/Screenshot 2024-10-23 184102.png"),
     },
     {
       title: "Quick Sort",
@@ -62,8 +62,25 @@ const courseData = {
         worst: "O(n^2)",
         average: "O(n log n)",
       },
-      image: "https://example.com/quick-sort-example.gif",
+      image: require("../../assets/images/Sorting_quicksort_anim.gif"),
     },
+    {
+      title: "Insertion Sort",
+      description:
+        "Insertion Sort adalah algoritma yang membangun array terurut satu elemen pada satu waktu. Ini bekerja dengan memindahkan setiap elemen ke posisi yang sesuai dalam sub-array yang sudah terurut di sebelah kiri.",
+      steps: [
+        "Mulai dari elemen kedua, bandingkan dengan elemen sebelumnya.",
+        "Jika elemen pertama lebih besar, tukar posisi mereka.Jika elemen tersebut lebih kecil, pindahkan elemen ke posisi yang sesuai di sub-array yang sudah terurut.",
+        "Ulangi proses ini untuk setiap elemen hingga seluruh array terurut.",
+      ],
+      complexity: {
+        best: " 𝑂(𝑛) (jika array sudah terurut)",
+        worst: "𝑂(𝑛^2)",
+        average: "𝑂(𝑛^2)",
+      },
+      image: require("../../assets/images/Insertion-sort-example-300px.gif"),
+    },
+    
   ],
 };
 
@@ -88,7 +105,7 @@ export default function CourseDetailsStatic() {
               {algorithm.description}
             </Text>
             <Image
-              source={{ uri: algorithm.image }}
+              source={algorithm.image}
               style={styles.algorithmImage}
             />
             <Text style={styles.sectionTitle}>Langkah-langkah:</Text>

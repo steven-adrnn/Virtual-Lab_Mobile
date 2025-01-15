@@ -1,4 +1,12 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
 
 interface Bar {
   value: number;
@@ -466,101 +474,102 @@ const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
 
   return (
     <body>
-      <main>
-        <section className="contact-hero">
-            <h1>Simulasi Algoritma Pengurutan</h1>
-            <p>Pilih algoritma, atur ukuran array, dan mulai simulasi untuk melihat bagaimana algoritma pengurutan bekerja secara visual.</p>
-        </section>
+      <ScrollView style={styles.container}>
+        <main>
+          <section className="contact-hero">
+              <h1>Simulasi Algoritma Pengurutan</h1>
+              <p>Pilih algoritma, atur ukuran array, dan mulai simulasi untuk melihat bagaimana algoritma pengurutan bekerja secara visual.</p>
+          </section>
 
-        <div className="simulation-controls">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-            <select id="algorithm-select"
-              value={selectedAlgorithm}
-              onChange={(e) => setSelectedAlgorithm(e.target.value as typeof selectedAlgorithm)}
-            >
-              <option value="bubble">Bubble Sort</option>
-              <option value="merge">Merge Sort</option>
-              <option value="quick">Quick Sort</option>
-              <option value="insertion">Insertion Sort</option>
-            </select>
+          <div className="simulation-controls">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+              <select id="algorithm-select"
+                value={selectedAlgorithm}
+                onChange={(e) => setSelectedAlgorithm(e.target.value as typeof selectedAlgorithm)}
+              >
+                <option value="bubble">Bubble Sort</option>
+                <option value="merge">Merge Sort</option>
+                <option value="quick">Quick Sort</option>
+                <option value="insertion">Insertion Sort</option>
+              </select>
 
-            <div className="speed-control">
-              <label htmlFor="speed-slider">Kecepatan:</label>
-              <input
-                type="range"
-                id="speed-slider"
-                min="1"
-                max={MAX_SPEED}
-                value={MAX_SPEED - simulationSpeed + 1}
-                onChange={(e) => setSimulationSpeed(MAX_SPEED - parseInt(e.target.value) + 1)}
-                className="w-full"
-              />
-              <span className="min-w-[100px]">{updateSpeedDisplay(simulationSpeed)}</span>
+              <div className="speed-control">
+                <label htmlFor="speed-slider">Kecepatan:</label>
+                <input
+                  type="range"
+                  id="speed-slider"
+                  min="1"
+                  max={MAX_SPEED}
+                  value={MAX_SPEED - simulationSpeed + 1}
+                  onChange={(e) => setSimulationSpeed(MAX_SPEED - parseInt(e.target.value) + 1)}
+                  className="w-full"
+                />
+                <span className="min-w-[100px]">{updateSpeedDisplay(simulationSpeed)}</span>
+              </div>
+
+              <div className="flex items-center space-x-4">
+                <label htmlFor="array-size">Ukuran Array:</label>
+                <input
+                  type="number"
+                  id="array-size"
+                  min="5"
+                  max="100"
+                  value={arraySize}
+                  onChange={(e) => setArraySize(parseInt(e.target.value))}
+                  className="w-24 px-2 py-1 border rounded-md"
+                />
+              </div>
+          </div>
+
+          <div className="flex flex-wrap gap-2 mb-6">
+              <button
+                onClick={() => generateRandomArray(arraySize)}
+                id="generate-array"
+              >
+                Generate Array
+              </button>
+              <button
+                onClick={startSimulation}
+                id="start-simulation"
+              >
+                {isPaused ? 'Resume' : 'Mulai Simulasi'}
+              </button>
+              <button
+                onClick={pauseSimulation}
+                id="pause-simulation"
+              >
+                {isPaused ? 'Resume' : 'Pause'}
+              </button>
+              <button
+                onClick={resetSimulation}
+                id="reset-simulation"
+              >
+                Reset
+              </button>
             </div>
 
-            <div className="flex items-center space-x-4">
-              <label htmlFor="array-size">Ukuran Array:</label>
-              <input
-                type="number"
-                id="array-size"
-                min="5"
-                max="100"
-                value={arraySize}
-                onChange={(e) => setArraySize(parseInt(e.target.value))}
-                className="w-24 px-2 py-1 border rounded-md"
+            <div className="simulation-area">
+              <canvas
+                ref={canvasRef}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+                className="w-full bg-white"
               />
             </div>
-        </div>
 
-        <div className="flex flex-wrap gap-2 mb-6">
-            <button
-              onClick={() => generateRandomArray(arraySize)}
-              id="generate-array"
-            >
-              Generate Array
-            </button>
-            <button
-              onClick={startSimulation}
-              id="start-simulation"
-            >
-              {isPaused ? 'Resume' : 'Mulai Simulasi'}
-            </button>
-            <button
-              onClick={pauseSimulation}
-              id="pause-simulation"
-            >
-              {isPaused ? 'Resume' : 'Pause'}
-            </button>
-            <button
-              onClick={resetSimulation}
-              id="reset-simulation"
-            >
-              Reset
-            </button>
+            <div className="simulation-info">
+              <h2>Informasi Algoritma</h2>
+              <p id="algorithm-description">{getAlgorithmInfo(selectedAlgorithm).description}</p>
+              <p id="algorithm-complexity">{getAlgorithmInfo(selectedAlgorithm).complexity}</p>
+            </div>
           </div>
-
-          <div className="simulation-area">
-            <canvas
-              ref={canvasRef}
-              onMouseDown={handleMouseDown}
-              onMouseMove={handleMouseMove}
-              onMouseUp={handleMouseUp}
-              onMouseLeave={handleMouseUp}
-              className="w-full bg-white"
-            />
-          </div>
-
-          <div className="simulation-info">
-            <h2>Informasi Algoritma</h2>
-            <p id="algorithm-description">{getAlgorithmInfo(selectedAlgorithm).description}</p>
-            <p id="algorithm-complexity">{getAlgorithmInfo(selectedAlgorithm).complexity}</p>
-          </div>
-        </div>
-      </main>
-
+        </main>
         <footer>
             <p>2024 Virtual Lab: Sorting Algorithm.</p>
         </footer>
+      </ScrollView>
 
         <script src="src/screens/utils/hamburger.js"></script>
         <script src="src/screens/utils/transition.js"></script>
@@ -568,4 +577,12 @@ const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
   );
 };
 
+const styles = StyleSheet.create({
+  container: {
+    padding: 20,
+    borderRadius: 10,
+    margin: 10,
+    zIndex: 2,  
+  },
+});
 export default SortingVisualizer;
