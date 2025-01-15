@@ -1,27 +1,21 @@
-import React, { useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { AuthProvider } from './src/contexts/AuthContext';
-import { OfflineProvider } from './src/contexts/OfflineContext';
-import { ThemeProvider } from './src/contexts/ThemeContext';
-import { RootNavigator } from './src/navigation/RootNavigator';
-import { NotificationService } from './src/services/notification';
+import { StatusBar } from "expo-status-bar";
+import React from "react";
+import { ThemeProvider } from "react-native-rapi-ui";
+import Navigation from "./src/navigation";
+import { AuthProvider } from "./src/provider/AuthProvider";
 
-const App = () => {
-  useEffect(() => {
-    NotificationService.configure();
-  }, []);
-
+export default function App() {
+  const images = [
+    require("./assets/images/login.png"),
+    require("./assets/images/register.png"),
+    require("./assets/images/forget.png"),
+  ];
   return (
-    <ThemeProvider>
+    <ThemeProvider images={images}>
       <AuthProvider>
-        <OfflineProvider>
-          <NavigationContainer>
-            <RootNavigator />
-          </NavigationContainer>
-        </OfflineProvider>
+        <Navigation />
       </AuthProvider>
+      <StatusBar />
     </ThemeProvider>
   );
-};
-
-export default App;
+}
