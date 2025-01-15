@@ -9,6 +9,7 @@ import Home from "../screens/Home";
 import About from "../screens/About";
 import Profile from "../screens/Profile";
 import Simulation from "../screens/Simulation"; // Importing the Simulation screen
+import QuizScreen from "../screens/QuizScreen";
 
 const Tabs = createBottomTabNavigator();
 const MainTabs = () => {
@@ -36,18 +37,6 @@ const MainTabs = () => {
         }}
       />
       <Tabs.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarLabel: ({ focused }) => (
-            <TabBarText focused={focused} title="Profile" />
-          ),
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={"person"} />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="About"
         component={About}
         options={{
@@ -68,6 +57,18 @@ const MainTabs = () => {
           ),
           tabBarIcon: ({ focused }) => (
             <TabBarIcon focused={focused} icon={"ios-rocket"} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="Profile"
+        component={QuizScreen}
+        options={{
+          tabBarLabel: ({ focused }) => (
+            <TabBarText focused={focused} title="Kuis" />
+          ),
+          tabBarIcon: ({ focused }) => (
+            <TabBarIcon focused={focused} icon={"person"} />
           ),
         }}
       />
