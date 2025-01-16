@@ -17,7 +17,7 @@ import { supabase } from "../initSupabase";
 const AboutScreen = () => {
   return (
     <ImageBackground
-      source={require("../../assets/images/4882066 (1).jpg")} // Pastikan jalur ini benar
+      source={require("../../assets/images/4882066.jpg")} // Pastikan jalur ini benar
       style={styles.background}
       imageStyle={styles.backgroundImage}
     >

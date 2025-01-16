@@ -510,7 +510,7 @@ const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
 
   return (
     <ImageBackground
-      source={require("../../assets/images/4882066 (1).jpg")} // Path ke background image
+      source={require("../../assets/images/4882066.jpg")} // Path ke background image
       style={styles.background}
       imageStyle={styles.imageStyle} // Untuk efek tambahan jika diperlukan
     >

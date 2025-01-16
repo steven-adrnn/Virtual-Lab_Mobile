@@ -4,11 +4,11 @@
     "slug": "virtuallabmobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/adaptive-icon-rill.png",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/adaptive-icon-rill.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#257DDB"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -22,13 +22,13 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./assets/adaptive-icon-rill.png",
+        "backgroundColor": "#257DDB"
       },
       "package": "com.stevenadrnn.virtuallabmobile"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/adaptive-icon-rill.png"
     },
     "extra": {
       "eas": {

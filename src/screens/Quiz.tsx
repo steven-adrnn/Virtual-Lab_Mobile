@@ -183,7 +183,7 @@ const QuizScreen: React.FC = (navigation) => {
   if (quizFinished) {
     return (
       <ImageBackground
-        source={require("../../assets/images/4882066 (1).jpg")}
+        source={require("../../assets/images/4882066.jpg")}
         style={styles.background}
         imageStyle={styles.imageStyle}
       >
@@ -206,7 +206,7 @@ const QuizScreen: React.FC = (navigation) => {
   if (!quizStarted) {
     return (
       <ImageBackground
-        source={require("../../assets/images/4882066 (1).jpg")}
+        source={require("../../assets/images/4882066.jpg")}
         style={styles.background}
         imageStyle={styles.imageStyle}
       >
@@ -225,7 +225,7 @@ const QuizScreen: React.FC = (navigation) => {
 
   return (
     <ImageBackground
-      source={require("../../assets/images/4882066 (1).jpg")}
+      source={require("../../assets/images/4882066.jpg")}
       style={styles.background}
       imageStyle={styles.imageStyle}
     >

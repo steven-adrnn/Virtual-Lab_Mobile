@@ -19,7 +19,7 @@ const HomeScreen: React.FC<
 > = ({ navigation }) => {
   return (
     <ImageBackground
-      source={require("../../assets/images/4882066 (1).jpg")}
+      source={require("../../assets/images/4882066.jpg")}
       style={styles.background}
       imageStyle={styles.backgroundImage}
     >
