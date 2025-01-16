@@ -8,6 +8,11 @@ import {
   ImageBackground,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { Button } from "react-native-rapi-ui";
+import { supabase } from "../initSupabase";
+
+
+
 
 const AboutScreen = () => {
   return (
@@ -78,6 +83,18 @@ const AboutScreen = () => {
               profesional dalam memahami algoritma pengurutan dengan lebih baik.
             </Text>
           </View>
+          <Button
+            text="Logout"
+            onPress={async () => {
+              const { error } = await supabase.auth.signOut();
+              if (!error) {
+                alert("Signed out!");
+              }
+              if (error) {
+                alert(error.message);
+              }
+            }}
+          />
         </View>
       </ScrollView>
     </ImageBackground>
@@ -89,6 +106,10 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: "cover",
     zIndex: 0,
+    width: "100%",
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
   blurOverlay: {
     ...StyleSheet.absoluteFillObject, // Menutupi seluruh layar

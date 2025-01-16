@@ -665,6 +665,8 @@ const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
 const styles = StyleSheet.create({
   background: {
     flex: 1,
+    width: "100%",
+    height: "100%",
   },
   imageStyle: {
     opacity: 0.9, // Transparansi untuk efek estetika

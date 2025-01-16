@@ -8,6 +8,7 @@ import {
   Alert,
   ImageBackground,
 } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 interface Question {
   question: string;
@@ -50,7 +51,51 @@ const QuizScreen: React.FC = () => {
       options: ["Merge Sort", "Quick Sort", "Heap Sort"],
       correctAnswer: "Quick Sort",
     },
+    {
+      question: 'Algoritma pengurutan mana yang paling efisien untuk array yang hampir terurut?',
+      options: ['Bubble Sort', 'Insertion Sort', 'Quick Sort'],
+      correctAnswer: 'Insertion Sort'
+    },
+    {
+        question: 'Apa itu "stable sorting algorithm"?',
+        options: ['Algoritma yang selalu menghasilkan urutan yang sama', 'Algoritma yang mempertahankan urutan relatif elemen dengan nilai yang sama', 'Algoritma yang tidak mengubah array asli'],
+        correctAnswer: 'Algoritma yang mempertahankan urutan relatif elemen dengan nilai yang sama'
+    },
+    {
+        question: 'Algoritma pengurutan mana yang menggunakan teknik "heapify"?',
+        options: ['Merge Sort', 'Quick Sort', 'Heap Sort'],
+        correctAnswer: 'Heap Sort'
+    },
+    {
+        question: 'Berapa banyak perbandingan yang dilakukan Bubble Sort dalam kasus terburuk?',
+        options: ['O(n)', 'O(n log n)', 'O(n^2)'],
+        correctAnswer: 'O(n^2)'
+    },
+    {
+        question: 'Algoritma pengurutan mana yang paling cocok untuk mengurutkan linked list?',
+        options: ['Quick Sort', 'Merge Sort', 'Heap Sort'],
+        correctAnswer: 'Merge Sort'
+    },
+    {
+        question: 'Apa keuntungan utama dari algoritma pengurutan in-place?',
+        options: ['Lebih cepat', 'Menggunakan memori tambahan yang konstan', 'Selalu stabil'],
+        correctAnswer: 'Menggunakan memori tambahan yang konstan'
+    }
   ];
+
+  // Load state from AsyncStorage
+  useEffect(() => {
+    const loadState = async () => {
+      const savedState = await AsyncStorage.getItem("quizState");
+      if (savedState) {
+        const { index, score, timer } = JSON.parse(savedState);
+        setCurrentQuestionIndex(index);
+        setScore(score);
+        setTimer(timer);
+      }
+    };
+    loadState();
+  }, []);
 
   // Timer
   useEffect(() => {
@@ -62,7 +107,7 @@ const QuizScreen: React.FC = () => {
     }
   }, [timer, answerSelected, quizFinished]);
 
-  const handleAnswer = (selectedOption: string): void => {
+  const handleAnswer = async (selectedOption: string): Promise<void> => {
     if (answerSelected) return;
     setAnswerSelected(true);
 
@@ -77,6 +122,13 @@ const QuizScreen: React.FC = () => {
         `Jawaban yang benar adalah: ${currentQuestion.correctAnswer}`
       );
     }
+
+    // Save state to AsyncStorage
+    await AsyncStorage.setItem("quizState", JSON.stringify({
+      index: currentQuestionIndex,
+      score: score + (selectedOption === currentQuestion.correctAnswer ? 1 : 0),
+      timer,
+    }));
 
     setTimeout(() => loadNextQuestion(), 1000);
   };
@@ -98,18 +150,30 @@ const QuizScreen: React.FC = () => {
     }
   };
 
-  const restartQuiz = (): void => {
+  const restartQuiz = async (): Promise<void> => {
     setCurrentQuestionIndex(0);
     setScore(0);
     setTimer(30);
     setAnswerSelected(false);
     setQuizFinished(false);
+    await AsyncStorage.removeItem("quizState"); // Clear saved state
   };
+
+  // Save state to AsyncStorage on unmount
+  useEffect(() => {
+    return () => {
+      AsyncStorage.setItem("quizState", JSON.stringify({
+        index: currentQuestionIndex,
+        score,
+        timer,
+      }));
+    };
+  }, [currentQuestionIndex, score, timer]);
 
   if (quizFinished) {
     return (
       <ImageBackground
-        source={require("../../assets/images/4882066 (1).jpg")} // Ganti path ini sesuai lokasi gambar Anda
+        source={require("../../assets/images/4882066 (1).jpg")}
         style={styles.background}
         imageStyle={styles.imageStyle}
       >
@@ -129,7 +193,7 @@ const QuizScreen: React.FC = () => {
 
   return (
     <ImageBackground
-      source={require("../../assets/images/4882066 (1).jpg")} // Ganti path ini sesuai lokasi gambar Anda
+      source={require("../../assets/images/4882066 (1).jpg")}
       style={styles.background}
       imageStyle={styles.imageStyle}
     >
@@ -195,19 +259,20 @@ const QuizScreen: React.FC = () => {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
+    width: "100%",
+    height: "100%",
   },
   imageStyle: {
-    opacity: 0.8, // Transparansi untuk menciptakan efek blur
-    filter: "blur(5px)", // Blur untuk web
+    opacity: 0.8,
   },
   overlay: {
-    ...StyleSheet.absoluteFillObject, // Menutupi seluruh layar
-    backgroundColor: "rgba(0, 0, 0, 0)", // Lapisan transparansi
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0, 0, 0, 0)",
   },
   container: {
     flex: 1,
     padding: 20,
-    zIndex: 1, // Pastikan konten berada di atas overlay
+    zIndex: 1,
   },
   header: {
     marginBottom: 20,
