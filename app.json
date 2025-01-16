@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "template-typescript-bottom-tabs-supabase-auth-flow",
+    "name": "virtuallabmobile",
     "slug": "virtuallabmobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -18,14 +18,14 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.stevenadrnn.templatetypescriptbottomtabssupabaseauthflow"
+      "bundleIdentifier": "com.stevenadrnn.virtuallabmobile"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.stevenadrnn.templatetypescriptbottomtabssupabaseauthflow"
+      "package": "com.stevenadrnn.virtuallabmobile"
     },
     "web": {
       "favicon": "./assets/favicon.png"
