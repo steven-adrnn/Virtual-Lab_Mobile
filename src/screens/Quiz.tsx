@@ -109,7 +109,7 @@ const QuizScreen: React.FC = () => {
   if (quizFinished) {
     return (
       <ImageBackground
-        source={require("../../assets/images/52132.jpg")} // Ganti path ini sesuai lokasi gambar Anda
+        source={require("../../assets/images/4882066 (1).jpg")} // Ganti path ini sesuai lokasi gambar Anda
         style={styles.background}
         imageStyle={styles.imageStyle}
       >
@@ -129,7 +129,7 @@ const QuizScreen: React.FC = () => {
 
   return (
     <ImageBackground
-      source={require("../../assets/images/52132.jpg")} // Ganti path ini sesuai lokasi gambar Anda
+      source={require("../../assets/images/4882066 (1).jpg")} // Ganti path ini sesuai lokasi gambar Anda
       style={styles.background}
       imageStyle={styles.imageStyle}
     >
@@ -197,12 +197,12 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   imageStyle: {
-    opacity: 0.7, // Transparansi untuk menciptakan efek blur
-    filter: "blur(10px)", // Blur untuk web
+    opacity: 0.8, // Transparansi untuk menciptakan efek blur
+    filter: "blur(5px)", // Blur untuk web
   },
   overlay: {
     ...StyleSheet.absoluteFillObject, // Menutupi seluruh layar
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Lapisan transparansi
+    backgroundColor: "rgba(0, 0, 0, 0)", // Lapisan transparansi
   },
   container: {
     flex: 1,

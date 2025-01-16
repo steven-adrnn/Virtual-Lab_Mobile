@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   StyleSheet,
+  ImageBackground,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -46,7 +47,7 @@ const courseData = {
         worst: "O(n log n)",
         average: "O(n log n)",
       },
-      image: require("../../assets/images/Screenshot 2024-10-23 184102.png"),
+      image: require("../../assets/images/simulasi-icon.jpg"),
     },
     {
       title: "Quick Sort",
@@ -80,58 +81,68 @@ const courseData = {
       },
       image: require("../../assets/images/Insertion-sort-example-300px.gif"),
     },
-    
   ],
 };
 
 export default function CourseDetailsStatic() {
   return (
-    <ScrollView style={styles.container}>
-      <TouchableOpacity
-        onPress={() => console.log("Go Back")}
-        style={styles.backButton}
-      >
-        <Ionicons name="arrow-back-sharp" size={24} color="black" />
-      </TouchableOpacity>
-      <View>
-        <Text style={styles.title}>{courseData.name}</Text>
-        <Text style={styles.subtitle}>By Virtual Lab</Text>
-        <Text style={styles.description}>{courseData.description}</Text>
+    <ImageBackground
+      source={require("../../assets/images/4882066 (1).jpg")}
+      style={styles.background}
+      imageStyle={styles.backgroundImage}
+    >
+      <ScrollView style={styles.container}>
+        <TouchableOpacity
+          onPress={() => console.log("Go Back")}
+          style={styles.backButton}
+        >
+          <Ionicons name="arrow-back-sharp" size={24} color="black" />
+        </TouchableOpacity>
+        <View>
+          <Text style={styles.title}>{courseData.name}</Text>
+          <Text style={styles.subtitle}>By Virtual Lab</Text>
+          <Text style={styles.description}>{courseData.description}</Text>
 
-        {courseData.algorithms.map((algorithm, index) => (
-          <View key={index} style={styles.algorithmContainer}>
-            <Text style={styles.algorithmTitle}>{algorithm.title}</Text>
-            <Text style={styles.algorithmDescription}>
-              {algorithm.description}
-            </Text>
-            <Image
-              source={algorithm.image}
-              style={styles.algorithmImage}
-            />
-            <Text style={styles.sectionTitle}>Langkah-langkah:</Text>
-            {algorithm.steps.map((step, stepIndex) => (
-              <Text key={stepIndex} style={styles.stepText}>
-                - {step}
+          {courseData.algorithms.map((algorithm, index) => (
+            <View key={index} style={styles.card}>
+              <Text style={styles.algorithmTitle}>{algorithm.title}</Text>
+              <Text style={styles.algorithmDescription}>
+                {algorithm.description}
               </Text>
-            ))}
-            <Text style={styles.sectionTitle}>Kompleksitas Waktu:</Text>
-            <Text style={styles.complexityText}>
-              Best Case: {algorithm.complexity.best}
-            </Text>
-            <Text style={styles.complexityText}>
-              Worst Case: {algorithm.complexity.worst}
-            </Text>
-            <Text style={styles.complexityText}>
-              Average Case: {algorithm.complexity.average}
-            </Text>
-          </View>
-        ))}
-      </View>
-    </ScrollView>
+              <Image source={algorithm.image} style={styles.algorithmImage} />
+              <Text style={styles.sectionTitle}>Langkah-langkah:</Text>
+              {algorithm.steps.map((step, stepIndex) => (
+                <Text key={stepIndex} style={styles.stepText}>
+                  - {step}
+                </Text>
+              ))}
+              <Text style={styles.sectionTitle}>Kompleksitas Waktu:</Text>
+              <Text style={styles.complexityText}>
+                Best Case: {algorithm.complexity.best}
+              </Text>
+              <Text style={styles.complexityText}>
+                Worst Case: {algorithm.complexity.worst}
+              </Text>
+              <Text style={styles.complexityText}>
+                Average Case: {algorithm.complexity.average}
+              </Text>
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    resizeMode: "cover",
+  },
+  backgroundImage: {
+    opacity: 0.8, // Transparansi untuk menciptakan efek blur
+    filter: "blur(5px)", // Blur untuk web
+  },
   container: {
     padding: 20,
     paddingTop: 50,
@@ -140,30 +151,47 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: "bold",
+    textAlign: "center",
+    color: "white",
   },
   subtitle: {
-    color: "gray",
+    color: "lightgray",
+    textAlign: "center",
     marginBottom: 10,
   },
   description: {
-    color: "gray",
+    color: "white",
     marginBottom: 20,
+    textAlign: "center",
   },
-  algorithmContainer: {
+  card: {
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
+    borderRadius: 10,
+    padding: 15,
     marginBottom: 20,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
+    elevation: 5,
   },
   algorithmTitle: {
     fontSize: 18,
     fontWeight: "bold",
+    textAlign: "center",
   },
   algorithmDescription: {
-    color: "gray",
+    color: "black",
+    textAlign: "center",
     marginTop: 10,
+    fontWeight: "bold",
   },
   algorithmImage: {
-    height: 150,
+    width: "100%", // Set width to 100% of the parent container
+    height: undefined, // Allows the height to adjust dynamically based on image's aspect ratio
+    aspectRatio: 1.5, // Maintain a specific aspect ratio if needed, adjust based on your images
     marginTop: 10,
     borderRadius: 10,
   },

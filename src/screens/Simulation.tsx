@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import {
   View,
   Text,
@@ -6,7 +6,10 @@ import {
   StyleSheet,
   TouchableOpacity,
   ImageBackground,
+  TextInput,
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+import Slider from "@react-native-community/slider";
 
 interface Bar {
   value: number;
@@ -30,7 +33,7 @@ interface SortingVisualizerProps {
 
 const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
   maxWidth = 800,
-  defaultArraySize = 10
+  defaultArraySize = 10,
 }) => {
   const [array, setArray] = useState<number[]>([]);
   const [steps, setSteps] = useState<number[][]>([]);
@@ -45,8 +48,10 @@ const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
   const [isTouch, setIsTouch] = useState(false);
   const [simulationSpeed, setSimulationSpeed] = useState(100);
   const [arraySize, setArraySize] = useState(defaultArraySize);
-  const [selectedAlgorithm, setSelectedAlgorithm] = useState<'bubble' | 'insertion' | 'quick' | 'merge'>('bubble');
-  
+  const [selectedAlgorithm, setSelectedAlgorithm] = useState<
+    "bubble" | "insertion" | "quick" | "merge"
+  >("bubble");
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameId = useRef<number>();
   const sortingInterval = useRef<NodeJS.Timeout>();
@@ -54,7 +59,10 @@ const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
   const MAX_SPEED = 200;
 
   const generateRandomArray = useCallback((size: number) => {
-    const newArray = Array.from({ length: size }, () => Math.floor(Math.random() * 100) + 1);
+    const newArray = Array.from(
+      { length: size },
+      () => Math.floor(Math.random() * 100) + 1
+    );
     setArray(newArray);
     setSteps([]);
     setCurrentStep(0);
@@ -64,11 +72,11 @@ const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    
+
     const barWidth = canvas.width / array.length;
     const maxValue = Math.max(...array);
     const scaleFactor = (canvas.height - 30) / maxValue;
@@ -80,25 +88,25 @@ const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
         const y = canvas.height - barHeight;
 
         // Draw shadow
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
+        ctx.shadowColor = "rgba(0, 0, 0, 0.2)";
         ctx.shadowBlur = 4;
         ctx.shadowOffsetX = 2;
         ctx.shadowOffsetY = 2;
 
         // Draw bar
-        ctx.fillStyle = '#02a9f7';
+        ctx.fillStyle = "#02a9f7";
         ctx.fillRect(x, y, barWidth - 2, barHeight);
 
         // Reset shadow
-        ctx.shadowColor = 'transparent';
+        ctx.shadowColor = "transparent";
         ctx.shadowBlur = 0;
         ctx.shadowOffsetX = 0;
         ctx.shadowOffsetY = 0;
 
         // Draw value
-        ctx.fillStyle = 'black';
-        ctx.font = '12px Arial';
-        ctx.textAlign = 'center';
+        ctx.fillStyle = "black";
+        ctx.font = "12px Arial";
+        ctx.textAlign = "center";
         ctx.fillText(value.toString(), x + barWidth / 2, y - 5);
       }
     });
@@ -106,28 +114,23 @@ const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
     // Draw dragged bar
     if (isDragging && draggedBar !== null) {
       const barHeight = draggedBar.value * scaleFactor;
-      
-      ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+
+      ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
       ctx.shadowBlur = 8;
       ctx.shadowOffsetX = 4;
       ctx.shadowOffsetY = 4;
 
-      ctx.fillStyle = '#ff4444';
-      ctx.fillRect(
-        currentPos.x,
-        currentPos.y,
-        barWidth - 2,
-        barHeight
-      );
+      ctx.fillStyle = "#ff4444";
+      ctx.fillRect(currentPos.x, currentPos.y, barWidth - 2, barHeight);
 
-      ctx.shadowColor = 'transparent';
+      ctx.shadowColor = "transparent";
       ctx.shadowBlur = 0;
       ctx.shadowOffsetX = 0;
       ctx.shadowOffsetY = 0;
 
-      ctx.fillStyle = 'black';
-      ctx.font = '12px Arial';
-      ctx.textAlign = 'center';
+      ctx.fillStyle = "black";
+      ctx.font = "12px Arial";
+      ctx.textAlign = "center";
       ctx.fillText(
         draggedBar.value.toString(),
         currentPos.x + barWidth / 2,
@@ -141,7 +144,7 @@ const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
     const steps: number[][] = [];
     const tempArray = [...arr];
     const n = tempArray.length;
-    
+
     for (let i = 0; i < n - 1; i++) {
       for (let j = 0; j < n - i - 1; j++) {
         if (tempArray[j] > tempArray[j + 1]) {
@@ -157,7 +160,7 @@ const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
     const steps: number[][] = [];
     const tempArray = [...arr];
     const n = tempArray.length;
-    
+
     for (let i = 1; i < n; i++) {
       const key = tempArray[i];
       let j = i - 1;
@@ -178,7 +181,7 @@ const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
     const partition = (arr: number[], low: number, high: number) => {
       const pivot = arr[high];
       let i = low - 1;
-      
+
       for (let j = low; j < high; j++) {
         steps.push([...arr]);
         if (arr[j] < pivot) {
@@ -217,7 +220,9 @@ const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
       for (let i = 0; i < n1; i++) L[i] = arr[l + i];
       for (let j = 0; j < n2; j++) R[j] = arr[m + 1 + j];
 
-      let i = 0, j = 0, k = l;
+      let i = 0,
+        j = 0,
+        k = l;
 
       while (i < n1 && j < n2) {
         if (L[i] <= R[j]) {
@@ -264,14 +269,14 @@ const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
     if (!isDragging) return;
 
     const easing = isTouch ? 0.4 : 0.2;
-    
-    setCurrentPos(prev => ({
+
+    setCurrentPos((prev) => ({
       x: prev.x + (targetPos.x - prev.x) * easing,
-      y: prev.y + (targetPos.y - prev.y) * easing
+      y: prev.y + (targetPos.y - prev.y) * easing,
     }));
 
     drawArray();
-    
+
     animationFrameId.current = requestAnimationFrame(animate);
   }, [drawArray, isDragging, isTouch, targetPos]);
 
@@ -284,28 +289,36 @@ const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
     if (sortingInterval.current) clearInterval(sortingInterval.current);
     setCurrentStep(0);
     setIsPaused(false);
-    
+
     let newSteps: number[][] = [];
     switch (selectedAlgorithm) {
-      case 'bubble':
+      case "bubble":
         newSteps = bubbleSort([...array]);
         break;
-      case 'insertion':
+      case "insertion":
         newSteps = insertionSort([...array]);
         break;
-      case 'quick':
+      case "quick":
         newSteps = quickSort([...array]);
         break;
-      case 'merge':
+      case "merge":
         newSteps = mergeSort([...array]);
         break;
     }
-    
+
     setSteps(newSteps);
-  }, [array, bubbleSort, insertionSort, isPaused, mergeSort, quickSort, selectedAlgorithm]);
+  }, [
+    array,
+    bubbleSort,
+    insertionSort,
+    isPaused,
+    mergeSort,
+    quickSort,
+    selectedAlgorithm,
+  ]);
 
   const pauseSimulation = useCallback(() => {
-    setIsPaused(prev => !prev);
+    setIsPaused((prev) => !prev);
   }, []);
 
   const resetSimulation = useCallback(() => {
@@ -316,52 +329,68 @@ const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
   }, [arraySize, generateRandomArray]);
 
   // Event Handlers
-  const handleMouseDown = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!isPaused) {
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent<HTMLCanvasElement>) => {
+      if (!isPaused) {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const barWidth = canvas.width / array.length;
+        const newDragStartIndex = Math.floor(x / barWidth);
+
+        if (newDragStartIndex >= 0 && newDragStartIndex < array.length) {
+          setDragStartIndex(newDragStartIndex);
+          setDraggedBar({
+            value: array[newDragStartIndex],
+            index: newDragStartIndex,
+          });
+          setIsDragging(true);
+          setDragOffset({
+            x: x - newDragStartIndex * barWidth,
+            y:
+              y -
+              (canvas.height -
+                (array[newDragStartIndex] * (canvas.height - 30)) /
+                  Math.max(...array)),
+          });
+          const newPos = {
+            x: x - dragOffset.x,
+            y: y - dragOffset.y,
+          };
+          setTargetPos(newPos);
+          setCurrentPos(newPos);
+          requestAnimationFrame(animate);
+        }
+      }
+    },
+    [animate, array, dragOffset.x, dragOffset.y, isPaused]
+  );
+
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLCanvasElement>) => {
+      if (!isDragging) return;
+
       const canvas = canvasRef.current;
       if (!canvas) return;
 
       const rect = canvas.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      
-      const barWidth = canvas.width / array.length;
-      const newDragStartIndex = Math.floor(x / barWidth);
 
-      if (newDragStartIndex >= 0 && newDragStartIndex < array.length) {
-        setDragStartIndex(newDragStartIndex);
-        setDraggedBar({ value: array[newDragStartIndex], index: newDragStartIndex });
-        setIsDragging(true);
-        setDragOffset({
-          x: x - (newDragStartIndex * barWidth),
-          y: y - (canvas.height - (array[newDragStartIndex] * (canvas.height - 30) / Math.max(...array)))
-        });
-        const newPos = {
-          x: x - dragOffset.x,
-          y: y - dragOffset.y
-        };
-        setTargetPos(newPos);
-        setCurrentPos(newPos);
-        requestAnimationFrame(animate);
-      }
-    }
-  }, [animate, array, dragOffset.x, dragOffset.y, isPaused]);
-
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!isDragging) return;
-
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const rect = canvas.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    setTargetPos({
-      x: x - dragOffset.x,
-      y: canvas.height - (draggedBar?.value ?? 0) * ((canvas.height - 30) / Math.max(...array))
-    });
-  }, [array, dragOffset.x, dragOffset.y, draggedBar?.value, isDragging]);
+      setTargetPos({
+        x: x - dragOffset.x,
+        y:
+          canvas.height -
+          (draggedBar?.value ?? 0) *
+            ((canvas.height - 30) / Math.max(...array)),
+      });
+    },
+    [array, dragOffset.x, dragOffset.y, draggedBar?.value, isDragging]
+  );
 
   const handleMouseUp = useCallback(() => {
     if (isDragging) {
@@ -370,7 +399,7 @@ const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
 
       const barWidth = canvas.width / array.length;
       const newIndex = Math.floor(targetPos.x / barWidth);
-      
+
       if (newIndex >= 0 && newIndex < array.length && draggedBar) {
         const newArray = [...array];
         newArray.splice(draggedBar.index, 1);
@@ -384,7 +413,8 @@ const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
       setDragOffset({ x: 0, y: 0 });
       setTargetPos({ x: 0, y: 0 });
       setCurrentPos({ x: 0, y: 0 });
-      if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
+      if (animationFrameId.current)
+        cancelAnimationFrame(animationFrameId.current);
     }
   }, [array, draggedBar, isDragging, targetPos.x]);
 
@@ -400,8 +430,8 @@ const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
     };
 
     resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-    return () => window.removeEventListener('resize', resizeCanvas);
+    window.addEventListener("resize", resizeCanvas);
+    return () => window.removeEventListener("resize", resizeCanvas);
   }, [drawArray, maxWidth]);
 
   useEffect(() => {
@@ -411,7 +441,7 @@ const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
   useEffect(() => {
     if (!isPaused && steps.length > 0) {
       sortingInterval.current = setInterval(() => {
-        setCurrentStep(prev => {
+        setCurrentStep((prev) => {
           if (prev < steps.length) {
             setArray(steps[prev]);
             return prev + 1;
@@ -444,145 +474,331 @@ const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
 
   const getAlgorithmInfo = (algorithm: string) => {
     switch (algorithm) {
-      case 'bubble':
+      case "bubble":
         return {
-          description: 'Bubble Sort membandingkan elemen berdekatan dan menukarnya jika tidak dalam urutan yang benar.',
-          complexity: 'Kompleksitas Waktu: O(n^2)'
+          description:
+            "Bubble Sort membandingkan elemen berdekatan dan menukarnya jika tidak dalam urutan yang benar.",
+          complexity: "Kompleksitas Waktu: O(n^2)",
         };
-      case 'insertion':
+      case "insertion":
         return {
-          description: 'Insertion Sort membandingkan elemen berdekatan dan menukarnya jika tidak dalam urutan yang benar.',
-          complexity: 'Kompleksitas Waktu: O(n^2)'
+          description:
+            "Insertion Sort membandingkan elemen berdekatan dan menukarnya jika tidak dalam urutan yang benar.",
+          complexity: "Kompleksitas Waktu: O(n^2)",
         };
-      case 'quick':
+      case "quick":
         return {
-          description: 'Quick Sort memilih pivot dan mempartisi array menjadi dua bagian.',
-          complexity: 'Kompleksitas Waktu: O(n log n)'
+          description:
+            "Quick Sort memilih pivot dan mempartisi array menjadi dua bagian.",
+          complexity: "Kompleksitas Waktu: O(n log n)",
         };
-      case 'merge':
+      case "merge":
         return {
-          description: 'Merge Sort membagi array menjadi dua bagian dan menggabungkannya kembali.',
-          complexity: 'Kompleksitas Waktu: O(n log n)'
+          description:
+            "Merge Sort membagi array menjadi dua bagian dan menggabungkannya kembali.",
+          complexity: "Kompleksitas Waktu: O(n log n)",
         };
       default:
         return {
-          description: '',
-          complexity: ''
+          description: "",
+          complexity: "",
         };
     }
   };
 
   return (
-    <body>
+    <ImageBackground
+      source={require("../../assets/images/4882066 (1).jpg")} // Path ke background image
+      style={styles.background}
+      imageStyle={styles.imageStyle} // Untuk efek tambahan jika diperlukan
+    >
       <ScrollView style={styles.container}>
-        <main>
-          <section className="contact-hero">
-              <h1>Simulasi Algoritma Pengurutan</h1>
-              <p>Pilih algoritma, atur ukuran array, dan mulai simulasi untuk melihat bagaimana algoritma pengurutan bekerja secara visual.</p>
-          </section>
+        <View style={styles.innerContainer}>
+          {/* Header Section */}
+          <View style={styles.header}>
+            <Text style={styles.title}>Simulasi Algoritma Pengurutan</Text>
+            <Text style={styles.subtitle}>
+              Pilih algoritma, atur ukuran array, dan mulai simulasi untuk
+              melihat bagaimana algoritma pengurutan bekerja secara visual.
+            </Text>
+          </View>
 
-          <div className="simulation-controls">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-              <select id="algorithm-select"
-                value={selectedAlgorithm}
-                onChange={(e) => setSelectedAlgorithm(e.target.value as typeof selectedAlgorithm)}
+          {/* Controls Section */}
+          <View style={styles.controls}>
+            <View style={styles.controlRow}>
+              <Text style={styles.label}>Pilih Algoritma:</Text>
+              <Picker
+                selectedValue={selectedAlgorithm}
+                onValueChange={(value) => setSelectedAlgorithm(value)}
+                style={styles.picker}
               >
-                <option value="bubble">Bubble Sort</option>
-                <option value="merge">Merge Sort</option>
-                <option value="quick">Quick Sort</option>
-                <option value="insertion">Insertion Sort</option>
-              </select>
+                <Picker.Item label="Bubble Sort" value="bubble" />
+                <Picker.Item label="Merge Sort" value="merge" />
+                <Picker.Item label="Quick Sort" value="quick" />
+                <Picker.Item label="Insertion Sort" value="insertion" />
+              </Picker>
+            </View>
 
-              <div className="speed-control">
-                <label htmlFor="speed-slider">Kecepatan:</label>
-                <input
-                  type="range"
-                  id="speed-slider"
-                  min="1"
-                  max={MAX_SPEED}
-                  value={MAX_SPEED - simulationSpeed + 1}
-                  onChange={(e) => setSimulationSpeed(MAX_SPEED - parseInt(e.target.value) + 1)}
-                  className="w-full"
-                />
-                <span className="min-w-[100px]">{updateSpeedDisplay(simulationSpeed)}</span>
-              </div>
-
-              <div className="flex items-center space-x-4">
-                <label htmlFor="array-size">Ukuran Array:</label>
-                <input
-                  type="number"
-                  id="array-size"
-                  min="5"
-                  max="100"
-                  value={arraySize}
-                  onChange={(e) => setArraySize(parseInt(e.target.value))}
-                  className="w-24 px-2 py-1 border rounded-md"
-                />
-              </div>
-          </div>
-
-          <div className="flex flex-wrap gap-2 mb-6">
-              <button
-                onClick={() => generateRandomArray(arraySize)}
-                id="generate-array"
-              >
-                Generate Array
-              </button>
-              <button
-                onClick={startSimulation}
-                id="start-simulation"
-              >
-                {isPaused ? 'Resume' : 'Mulai Simulasi'}
-              </button>
-              <button
-                onClick={pauseSimulation}
-                id="pause-simulation"
-              >
-                {isPaused ? 'Resume' : 'Pause'}
-              </button>
-              <button
-                onClick={resetSimulation}
-                id="reset-simulation"
-              >
-                Reset
-              </button>
-            </div>
-
-            <div className="simulation-area">
-              <canvas
-                ref={canvasRef}
-                onMouseDown={handleMouseDown}
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
-                onMouseLeave={handleMouseUp}
-                className="w-full bg-white"
+            <View style={styles.controlRow}>
+              <Text style={styles.label}>Kecepatan:</Text>
+              <Slider
+                style={styles.slider}
+                minimumValue={1}
+                maximumValue={MAX_SPEED}
+                value={MAX_SPEED - simulationSpeed + 1}
+                onValueChange={(value) =>
+                  setSimulationSpeed(MAX_SPEED - Number(value) + 1)
+                }
               />
-            </div>
+              <Text style={styles.speedLabel}>
+                {updateSpeedDisplay(simulationSpeed)}
+              </Text>
+            </View>
 
-            <div className="simulation-info">
-              <h2>Informasi Algoritma</h2>
-              <p id="algorithm-description">{getAlgorithmInfo(selectedAlgorithm).description}</p>
-              <p id="algorithm-complexity">{getAlgorithmInfo(selectedAlgorithm).complexity}</p>
-            </div>
-          </div>
-        </main>
-        <footer>
-            <p>2024 Virtual Lab: Sorting Algorithm.</p>
-        </footer>
+            <View style={styles.controlRow}>
+              <Text style={styles.label}>Ukuran Array:</Text>
+              <TextInput
+                style={styles.input}
+                keyboardType="numeric"
+                placeholder="Masukkan ukuran array"
+                value={String(arraySize)}
+                onChangeText={(value) => {
+                  const numericValue = value === "" ? 0 : parseInt(value, 10);
+                  if (numericValue > 0) {
+                    setArraySize(numericValue);
+                    generateRandomArray(numericValue);
+                  }
+                }}
+              />
+            </View>
+          </View>
+
+          {/* Buttons Section */}
+          <View style={styles.buttonGroup}>
+            <TouchableOpacity
+              style={[styles.button, styles.buttonFullWidth]}
+              onPress={() => generateRandomArray(arraySize)}
+            >
+              <Text style={styles.buttonText}>Generate Array</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, styles.buttonFullWidth]}
+              onPress={startSimulation}
+            >
+              <Text style={styles.buttonText}>
+                {isPaused ? "Resume" : "Mulai Simulasi"}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, styles.buttonFullWidth]}
+              onPress={pauseSimulation}
+            >
+              <Text style={styles.buttonText}>
+                {isPaused ? "Resume" : "Pause"}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.button, styles.buttonFullWidth]}
+              onPress={resetSimulation}
+            >
+              <Text style={styles.buttonText}>Reset</Text>
+            </TouchableOpacity>
+          </View>
+
+          {/* Simulation Area */}
+          <View style={styles.simulationArea}>
+            <View style={styles.arrayContainer}>
+              {array.map((value, index) => {
+                const barWidthPercent = 100 / array.length;
+                const showText = barWidthPercent > 3;
+
+                return (
+                  <View
+                    key={index}
+                    style={[
+                      styles.bar,
+                      {
+                        height: value * 2,
+                        width: `${barWidthPercent}%`,
+                      },
+                    ]}
+                  >
+                    {showText && (
+                      <Text
+                        style={[
+                          styles.barText,
+                          {
+                            fontSize: Math.min(
+                              10,
+                              Math.max(6, barWidthPercent)
+                            ),
+                          },
+                        ]}
+                        numberOfLines={1}
+                        ellipsizeMode="clip"
+                      >
+                        {value}
+                      </Text>
+                    )}
+                  </View>
+                );
+              })}
+            </View>
+          </View>
+
+          {/* Algorithm Info Section */}
+          <View style={styles.info}>
+            <Text style={styles.infoTitle}>Informasi Algoritma</Text>
+            <Text style={styles.infoText}>
+              {getAlgorithmInfo(selectedAlgorithm).description}
+            </Text>
+            <Text style={styles.infoText}>
+              {getAlgorithmInfo(selectedAlgorithm).complexity}
+            </Text>
+          </View>
+        </View>
       </ScrollView>
-
-        <script src="src/screens/utils/hamburger.js"></script>
-        <script src="src/screens/utils/transition.js"></script>
-    </body>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+  },
+  imageStyle: {
+    opacity: 0.9, // Transparansi untuk efek estetika
+  },
   container: {
-    padding: 20,
+    flex: 1,
+  },
+  innerContainer: {
+    padding: 16,
+    backgroundColor: "rgba(255, 255, 255, 0.8)", // Latar belakang semi-transparan
     borderRadius: 10,
-    margin: 10,
-    zIndex: 2,  
+    margin: 16,
+  },
+  header: {
+    marginBottom: 16,
+    textAlign: "center",
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 8,
+    textAlign: "center",
+  },
+  subtitle: {
+    fontSize: 14,
+    color: "#555",
+    textAlign: "center",
+  },
+  controls: {
+    marginBottom: 16,
+  },
+  controlRow: {
+    marginBottom: 16,
+  },
+  label: {
+    fontSize: 14,
+    color: "#333",
+    marginBottom: 8,
+  },
+  picker: {
+    height: 40,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+  },
+  slider: {
+    width: "100%",
+    marginVertical: 8,
+  },
+  speedLabel: {
+    fontSize: 12,
+    color: "#555",
+  },
+  input: {
+    height: 40,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    paddingHorizontal: 8,
+  },
+  buttonGroup: {
+    flexDirection: "row", // Mengatur tombol secara horizontal
+    flexWrap: "wrap", // Membungkus tombol jika layar tidak cukup
+    justifyContent: "space-between", // Memberikan jarak antar tombol
+    marginBottom: 16,
+  },
+  button: {
+    flex: 1, // Membuat tombol menyesuaikan ukuran
+    marginHorizontal: 4, // Memberikan jarak antar tombol
+    backgroundColor: "#007bff",
+    paddingVertical: 12, // Tinggi tombol
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  buttonFullWidth: {
+    flexBasis: "45%", // Mengatur lebar tombol menjadi sekitar 45% dari layar
+    marginBottom: 8, // Jarak antar tombol secara vertikal
+  },
+  buttonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 16,
+    textAlign: "center",
+  },
+
+  simulationArea: {
+    height: 300,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    backgroundColor: "#fff",
+    marginBottom: 16,
+    overflow: "hidden", // Batasi overflow pada kontainer utama
+    paddingHorizontal: 8,
+  },
+  arrayContainer: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    height: "100%",
+    width: "100%",
+    overflow: "hidden", // Batasi overflow pada array
+    paddingHorizontal: 8, // Tambahkan jarak di kiri dan kanan
+  },
+  bar: {
+    backgroundColor: "#007bff",
+    justifyContent: "flex-end",
+    alignItems: "center",
+    overflow: "hidden", // Pastikan teks tidak meluap dari bar
+    marginHorizontal: 0.5, // Tambahkan jarak antar bar agar terlihat lebih rapi
+  },
+  barText: {
+    color: "#fff",
+    marginBottom: 4,
+    textAlign: "center",
+    overflow: "hidden", // Pastikan teks tidak meluap keluar bar
+  },
+  info: {
+    padding: 16,
+    backgroundColor: "#fff",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+  },
+  infoTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#333",
+    marginBottom: 8,
+  },
+  infoText: {
+    fontSize: 14,
+    color: "#555",
   },
 });
+
 export default SortingVisualizer;

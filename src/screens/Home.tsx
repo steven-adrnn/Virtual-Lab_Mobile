@@ -12,8 +12,7 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
-import { BlurView } from 'expo-blur';
-
+import { BlurView } from "expo-blur";
 
 const HomeScreen: React.FC<
   NativeStackScreenProps<MainStackParamList, "MainTabs">
@@ -110,20 +109,20 @@ const HomeScreen: React.FC<
       <ImageBackground
         source={require("../../assets/images/8552601.jpg")} // Ganti path ini sesuai lokasi gambar Anda
         style={styles.background}
-      >        
-        <BlurView 
+      >
+        <BlurView
           intensity={50} // Intensitas blur (0-100)
           style={styles.blurOverlay}
         />
         <View style={styles.overlay} />
-      
+
         <ScrollView style={styles.container}>
           <main>
             <section className="hero">
               <h1>Virtual Lab: Sorting Algorithm</h1>
               <p>
-                Pelajari algoritma pengurutan melalui simulasi interaktif, course,
-                dan kuis!
+                Pelajari algoritma pengurutan melalui simulasi interaktif,
+                course, dan kuis!
               </p>
             </section>
 
@@ -133,11 +132,11 @@ const HomeScreen: React.FC<
                 className="feature"
               >
                 <ImageBackground
-                  source={require("../../assets/images/52132.jpg")} // Ganti path ini sesuai lokasi gambar Anda
+                  source={require("../../assets/images/4882066 (1).jpg")} // Ganti path ini sesuai lokasi gambar Anda
                   style={styles.background}
                 ></ImageBackground>
-                  <h2>Simulasi</h2>
-                  <p>Visualisasikan algoritma pengurutan secara langsung.</p>
+                <h2>Simulasi</h2>
+                <p>Visualisasikan algoritma pengurutan secara langsung.</p>
               </a>
               <a
                 onClick={() => navigation.navigate("Course")}
@@ -147,29 +146,23 @@ const HomeScreen: React.FC<
                   source={require("../../assets/images/20944033.jpg")} // Ganti path ini sesuai lokasi gambar Anda
                   style={styles.background}
                 ></ImageBackground>
-                  <h2>Course</h2>
-                  <p>Pelajari teori dan konsep algoritma pengurutan.</p>
-                
+                <h2>Course</h2>
+                <p>Pelajari teori dan konsep algoritma pengurutan.</p>
               </a>
-              
+
               <a
                 onClick={() => navigation.navigate("Quiz")}
                 className="feature"
-                
               >
                 <ImageBackground
                   source={require("../../assets/images/97350-OKYIEE-393.jpg")} // Ganti path ini sesuai lokasi gambar Anda
                   style={styles.background}
                 ></ImageBackground>
-                  <h2>Kuis</h2>
-                  <p>Uji pemahaman Anda dengan kuis interaktif.</p>
+                <h2>Kuis</h2>
+                <p>Uji pemahaman Anda dengan kuis interaktif.</p>
               </a>
             </section>
           </main>
-
-          <footer>
-            <p>2024 Virtual Lab: Sorting Algorithm.</p>
-          </footer>
         </ScrollView>
       </ImageBackground>
 
@@ -189,12 +182,12 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   blurOverlay: {
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     bottom: 0,
     right: 0,
-    color: 'black',
+    color: "black",
   },
 
   overlay: {

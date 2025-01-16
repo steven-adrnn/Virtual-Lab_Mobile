@@ -1,90 +1,73 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
+import { View, Text } from "react-native";
+import { Ionicons } from "@expo/vector-icons"; // Pastikan Anda memiliki expo/vector-icons
 import { themeColor, useTheme } from "react-native-rapi-ui";
-import TabBarIcon from "../components/utils/TabBarIcon";
-import TabBarText from "../components/utils/TabBarText";
 
 import Home from "../screens/Home";
 import About from "../screens/About";
-// import Profile from "../screens/Profile";
-import Simulation from "../screens/Simulation"; // Importing the Simulation screen
+import Simulation from "../screens/Simulation";
 import Quiz from "../screens/Quiz";
 import Course from "../screens/CourseData";
 
 const Tabs = createBottomTabNavigator();
+
 const MainTabs = () => {
   const { isDarkmode } = useTheme();
+
   return (
     <Tabs.Navigator
-      screenOptions={{
-        headerShown: false,
+      screenOptions={({ route }) => ({
+        headerShown: false, // Hides the header bar
         tabBarStyle: {
           borderTopColor: isDarkmode ? themeColor.dark100 : "#c0c0c0",
           backgroundColor: isDarkmode ? themeColor.dark200 : "#ffffff",
+          paddingVertical: 8,
+          height: 70, // Adjust the height for better spacing
         },
-      }}
+        tabBarShowLabel: false, // **Hapus label default**
+        tabBarIcon: ({ focused, color }) => {
+          let iconName;
+
+          // Set icon based on route name
+          if (route.name === "Home") {
+            iconName = focused ? "home" : "home-outline";
+          } else if (route.name === "About") {
+            iconName = focused
+              ? "information-circle"
+              : "information-circle-outline";
+          } else if (route.name === "Simulation") {
+            iconName = focused ? "rocket" : "rocket-outline";
+          } else if (route.name === "Quiz") {
+            iconName = focused ? "create" : "create-outline";
+          } else if (route.name === "Course") {
+            iconName = focused ? "school" : "school-outline";
+          }
+
+          return (
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+              <Ionicons name={iconName} size={24} color={color} />
+              <Text
+                style={{
+                  fontSize: 12,
+                  color: focused ? themeColor.primary : "#808080",
+                  marginTop: 2,
+                }}
+              >
+                {route.name}
+              </Text>
+            </View>
+          );
+        },
+        tabBarActiveTintColor: themeColor.primary,
+        tabBarInactiveTintColor: isDarkmode ? "#888" : "#aaa",
+      })}
     >
-      <Tabs.Screen
-        name="Home"
-        component={Home}
-        options={{
-          tabBarLabel: ({ focused }) => (
-            <TabBarText focused={focused} title="Home" />
-          ),
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={"md-home"} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="About"
-        component={About}
-        options={{
-          tabBarLabel: ({ focused }) => (
-            <TabBarText focused={focused} title="About" />
-          ),
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={"ios-information-circle"} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="Simulation" // Adding the Simulation tab
-        component={Simulation}
-        options={{
-          tabBarLabel: ({ focused }) => (
-            <TabBarText focused={focused} title="Simulation" />
-          ),
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={"ios-rocket"} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="Quiz"
-        component={Quiz}
-        options={{
-          tabBarLabel: ({ focused }) => (
-            <TabBarText focused={focused} title="Kuis" />
-          ),
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={"person"} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="Course"
-        component={Course}
-        options={{
-          tabBarLabel: ({ focused }) => (
-            <TabBarText focused={focused} title="Course" />
-          ),
-          tabBarIcon: ({ focused }) => (
-            <TabBarIcon focused={focused} icon={"person"} />
-          ),
-        }}
-      />
+      <Tabs.Screen name="Home" component={Home} />
+      <Tabs.Screen name="About" component={About} />
+      <Tabs.Screen name="Simulation" component={Simulation} />
+      <Tabs.Screen name="Quiz" component={Quiz} />
+      <Tabs.Screen name="Course" component={Course} />
     </Tabs.Navigator>
   );
 };

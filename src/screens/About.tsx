@@ -12,7 +12,7 @@ import { Ionicons } from "@expo/vector-icons";
 const AboutScreen = () => {
   return (
     <ImageBackground
-      source={require("../../assets/images/52132.jpg")} // Ganti path ini sesuai lokasi gambar Anda
+      source={require("../../assets/images/4882066 (1).jpg")} // Pastikan jalur ini benar
       style={styles.background}
     >
       {/* Lapisan blur manual */}
@@ -87,17 +87,16 @@ const AboutScreen = () => {
 const styles = StyleSheet.create({
   background: {
     flex: 1,
+    resizeMode: "cover",
+    zIndex: 0,
   },
   blurOverlay: {
     ...StyleSheet.absoluteFillObject, // Menutupi seluruh layar
     backgroundColor: "rgba(255, 255, 255, 0.2)", // Transparansi untuk efek buram
-    // backdropFilter: "blur(20px)", // Blur untuk platform web
     zIndex: 1, // Pastikan lapisan ini berada di atas gambar
   },
   container: {
     padding: 20,
-    borderRadius: 10,
-    margin: 10,
     zIndex: 2, // Pastikan konten berada di atas lapisan blur
   },
   header: {
@@ -127,8 +126,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     padding: 15,
     borderRadius: 10,
-    shadowColor: "transparent", // Menghapus bayangan besar
-    elevation: 0, // Menghilangkan efek bayangan di Android
+    elevation: 0,
   },
   icon: {
     marginBottom: 10,
