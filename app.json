@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "template-typescript-bottom-tabs-supabase-auth-flow",
-    "slug": "template-typescript-bottom-tabs-supabase-auth-flow",
+    "slug": "virtuallabmobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -32,8 +32,9 @@
     },
     "extra": {
       "eas": {
-        "projectId": "c16639b2-1d81-4518-a33c-ee60e097a04c"
+        "projectId": "155fee95-66a6-4a76-a927-605c3c90fd56"
       }
-    }
+    },
+    "owner": "steven-adrn"
   }
 }
