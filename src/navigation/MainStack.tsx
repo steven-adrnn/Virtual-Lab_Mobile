@@ -8,7 +8,7 @@ import Course from "../screens/CourseData";
 import Quiz from "../screens/Quiz";
 import Home from "../screens/Home";
 
-const MainStack = createNativeStackNavigator<MainStackParamList>();
+const MainStack = createNativeStackNavigator();
 const Main = () => {
   return (
     <MainStack.Navigator

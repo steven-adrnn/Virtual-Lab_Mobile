@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import Slider from "@react-native-community/slider";
+import { Ionicons } from "@expo/vector-icons";
+
 
 interface Bar {
   value: number;
@@ -513,150 +515,157 @@ const SortingVisualizer: React.FC<SortingVisualizerProps> = ({
       imageStyle={styles.imageStyle} // Untuk efek tambahan jika diperlukan
     >
       <ScrollView style={styles.container}>
-        <View style={styles.innerContainer}>
+
+        <View>
           {/* Header Section */}
-          <View style={styles.header}>
-            <Text style={styles.title}>Simulasi Algoritma Pengurutan</Text>
-            <Text style={styles.subtitle}>
-              Pilih algoritma, atur ukuran array, dan mulai simulasi untuk
-              melihat bagaimana algoritma pengurutan bekerja secara visual.
-            </Text>
-          </View>
 
-          {/* Controls Section */}
-          <View style={styles.controls}>
-            <View style={styles.controlRow}>
-              <Text style={styles.label}>Pilih Algoritma:</Text>
-              <Picker
-                selectedValue={selectedAlgorithm}
-                onValueChange={(value) => setSelectedAlgorithm(value)}
-                style={styles.picker}
-              >
-                <Picker.Item label="Bubble Sort" value="bubble" />
-                <Picker.Item label="Merge Sort" value="merge" />
-                <Picker.Item label="Quick Sort" value="quick" />
-                <Picker.Item label="Insertion Sort" value="insertion" />
-              </Picker>
-            </View>
+          <Text style={styles.title}>Simulasi Algoritma Pengurutan</Text>
+          <Text style={styles.description}>
+            Pilih algoritma, atur ukuran array, dan mulai simulasi untuk
+            melihat bagaimana algoritma pengurutan bekerja secara visual.
+          </Text>
+        
+          <View style={styles.innerContainer}>
+            {/* Controls Section */}
+            <View style={styles.controls}>
+              <View style={styles.controlRow}>
+                <Text style={styles.label}>Pilih Algoritma:</Text>
+                <Picker
+                  selectedValue={selectedAlgorithm}
+                  onValueChange={(value) => setSelectedAlgorithm(value)}
+                  style={styles.picker}
+                >
+                  <Picker.Item label="Bubble Sort" value="bubble" />
+                  <Picker.Item label="Merge Sort" value="merge" />
+                  <Picker.Item label="Quick Sort" value="quick" />
+                  <Picker.Item label="Insertion Sort" value="insertion" />
+                </Picker>
+              </View>
 
-            <View style={styles.controlRow}>
-              <Text style={styles.label}>Kecepatan:</Text>
-              <Slider
-                style={styles.slider}
-                minimumValue={1}
-                maximumValue={MAX_SPEED}
-                value={MAX_SPEED - simulationSpeed + 1}
-                onValueChange={(value) =>
-                  setSimulationSpeed(MAX_SPEED - Number(value) + 1)
-                }
-              />
-              <Text style={styles.speedLabel}>
-                {updateSpeedDisplay(simulationSpeed)}
-              </Text>
-            </View>
-
-            <View style={styles.controlRow}>
-              <Text style={styles.label}>Ukuran Array:</Text>
-              <TextInput
-                style={styles.input}
-                keyboardType="numeric"
-                placeholder="Masukkan ukuran array"
-                value={String(arraySize)}
-                onChangeText={(value) => {
-                  const numericValue = value === "" ? 0 : parseInt(value, 10);
-                  if (numericValue > 0) {
-                    setArraySize(numericValue);
-                    generateRandomArray(numericValue);
+              <View style={styles.controlRow}>
+                <Text style={styles.label}>Kecepatan:</Text>
+                <Slider
+                  style={styles.slider}
+                  minimumValue={1}
+                  maximumValue={MAX_SPEED}
+                  value={MAX_SPEED - simulationSpeed + 1}
+                  onValueChange={(value) =>
+                    setSimulationSpeed(MAX_SPEED - Number(value) + 1)
                   }
-                }}
-              />
+                />
+                <Text style={styles.speedLabel}>
+                  {updateSpeedDisplay(simulationSpeed)}
+                </Text>
+              </View>
+
+              <View style={styles.controlRow}>
+                <Text style={styles.label}>Ukuran Array:</Text>
+                <TextInput
+                  style={styles.input}
+                  keyboardType="numeric"
+                  placeholder="Masukkan ukuran array"
+                  value={String(arraySize)}
+                  onChangeText={(value) => {
+                    const numericValue = value === "" ? 0 : parseInt(value, 10);
+                    if (numericValue > 0) {
+                      setArraySize(numericValue);
+                      generateRandomArray(numericValue);
+                    }
+                  }}
+                />
+              </View>
             </View>
-          </View>
 
-          {/* Buttons Section */}
-          <View style={styles.buttonGroup}>
-            <TouchableOpacity
-              style={[styles.button, styles.buttonFullWidth]}
-              onPress={() => generateRandomArray(arraySize)}
-            >
-              <Text style={styles.buttonText}>Generate Array</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, styles.buttonFullWidth]}
-              onPress={startSimulation}
-            >
-              <Text style={styles.buttonText}>
-                {isPaused ? "Resume" : "Mulai Simulasi"}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, styles.buttonFullWidth]}
-              onPress={pauseSimulation}
-            >
-              <Text style={styles.buttonText}>
-                {isPaused ? "Resume" : "Pause"}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.button, styles.buttonFullWidth]}
-              onPress={resetSimulation}
-            >
-              <Text style={styles.buttonText}>Reset</Text>
-            </TouchableOpacity>
-          </View>
-
-          {/* Simulation Area */}
-          <View style={styles.simulationArea}>
-            <View style={styles.arrayContainer}>
-              {array.map((value, index) => {
-                const barWidthPercent = 100 / array.length;
-                const showText = barWidthPercent > 3;
-
-                return (
-                  <View
-                    key={index}
-                    style={[
-                      styles.bar,
-                      {
-                        height: value * 2,
-                        width: `${barWidthPercent}%`,
-                      },
-                    ]}
-                  >
-                    {showText && (
-                      <Text
-                        style={[
-                          styles.barText,
-                          {
-                            fontSize: Math.min(
-                              10,
-                              Math.max(6, barWidthPercent)
-                            ),
-                          },
-                        ]}
-                        numberOfLines={1}
-                        ellipsizeMode="clip"
-                      >
-                        {value}
-                      </Text>
-                    )}
-                  </View>
-                );
-              })}
+            {/* Buttons Section */}
+            <View style={styles.buttonGroup}>
+              <TouchableOpacity
+                style={[styles.button, styles.buttonFullWidth]}
+                onPress={() => generateRandomArray(arraySize)}
+              >
+                <Text style={styles.buttonText}>Generate Array</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, styles.buttonFullWidth]}
+                onPress={startSimulation}
+              >
+                <Text style={styles.buttonText}>
+                  {isPaused ? "Resume" : "Mulai Simulasi"}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, styles.buttonFullWidth]}
+                onPress={pauseSimulation}
+              >
+                <Text style={styles.buttonText}>
+                  {isPaused ? "Resume" : "Pause"}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, styles.buttonFullWidth]}
+                onPress={resetSimulation}
+              >
+                <Text style={styles.buttonText}>Reset</Text>
+              </TouchableOpacity>
             </View>
-          </View>
 
-          {/* Algorithm Info Section */}
-          <View style={styles.info}>
-            <Text style={styles.infoTitle}>Informasi Algoritma</Text>
-            <Text style={styles.infoText}>
-              {getAlgorithmInfo(selectedAlgorithm).description}
-            </Text>
-            <Text style={styles.infoText}>
-              {getAlgorithmInfo(selectedAlgorithm).complexity}
-            </Text>
+            {/* Simulation Area */}
+            <View style={styles.simulationArea}>
+              <View style={styles.arrayContainer}>
+                {array.map((value, index) => {
+                  const barWidthPercent = 100 / array.length;
+                  const showText = barWidthPercent > 3;
+
+                  return (
+                    <View
+                      key={index}
+                      style={[
+                        styles.bar,
+                        {
+                          height: value * 2,
+                          width: `${barWidthPercent}%`,
+                        },
+                      ]}
+                    >
+                      {showText && (
+                        <Text
+                          style={[
+                            styles.barText,
+                            {
+                              fontSize: Math.min(
+                                10,
+                                Math.max(6, barWidthPercent)
+                              ),
+                            },
+                          ]}
+                          numberOfLines={1}
+                          ellipsizeMode="clip"
+                        >
+                          {value}
+                        </Text>
+                      )}
+                    </View>
+                  );
+                })}
+              </View>
+            </View>
+
+            {/* Algorithm Info Section */}
+            <View style={styles.info}>
+              <Text style={styles.infoTitle}>Informasi Algoritma</Text>
+              <Text style={styles.infoText}>
+                {getAlgorithmInfo(selectedAlgorithm).description}
+              </Text>
+              <Text style={styles.infoText}>
+                {getAlgorithmInfo(selectedAlgorithm).complexity}
+              </Text>
+            </View>
           </View>
         </View>
+        <Text></Text>
+        <Text></Text>
+        <Text></Text>
+        <Text></Text>
+        <Text></Text>
       </ScrollView>
     </ImageBackground>
   );
@@ -667,18 +676,32 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     height: "100%",
+    resizeMode: "cover",
   },
   imageStyle: {
     opacity: 0.9, // Transparansi untuk efek estetika
+    filter: "blur(5px)", // Blur untuk web
+
   },
   container: {
     flex: 1,
+    padding: 20,
+    paddingTop: 70,
   },
   innerContainer: {
     padding: 16,
     backgroundColor: "rgba(255, 255, 255, 0.8)", // Latar belakang semi-transparan
     borderRadius: 10,
-    margin: 16,
+    paddingTop: 20,
+    margin: 0,
+  },
+  description: {
+    color: "white",
+    marginTop: 10,
+    marginBottom: 20,
+    marginLeft: 20,
+    marginRight: 20,
+    textAlign: "center",
   },
   header: {
     marginBottom: 16,
@@ -687,14 +710,13 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#333",
-    marginBottom: 8,
     textAlign: "center",
+    color: "white",
   },
   subtitle: {
-    fontSize: 14,
-    color: "#555",
+    color: "lightgray",
     textAlign: "center",
+    marginBottom: 10,
   },
   controls: {
     marginBottom: 16,
@@ -708,10 +730,10 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   picker: {
-    height: 40,
-    borderWidth: 1,
+    height: 60,
+    borderWidth: 5,
     borderColor: "#ccc",
-    borderRadius: 8,
+    borderRadius: 8,    
   },
   slider: {
     width: "100%",
@@ -753,6 +775,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
 
+  backButton: {
+    marginBottom: 20,
+  },
   simulationArea: {
     height: 300,
     borderWidth: 1,

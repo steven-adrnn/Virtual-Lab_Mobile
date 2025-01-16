@@ -92,12 +92,7 @@ export default function CourseDetailsStatic() {
       imageStyle={styles.backgroundImage}
     >
       <ScrollView style={styles.container}>
-        <TouchableOpacity
-          onPress={() => console.log("Go Back")}
-          style={styles.backButton}
-        >
-          <Ionicons name="arrow-back-sharp" size={24} color="black" />
-        </TouchableOpacity>
+        
         <View>
           <Text style={styles.title}>{courseData.name}</Text>
           <Text style={styles.subtitle}>By Virtual Lab</Text>
@@ -129,6 +124,10 @@ export default function CourseDetailsStatic() {
             </View>
           ))}
         </View>
+        <Text></Text>
+        <Text></Text>
+        <Text></Text>
+        <Text></Text>
       </ScrollView>
     </ImageBackground>
   );
@@ -142,12 +141,12 @@ const styles = StyleSheet.create({
     height: "100%",
   },
   backgroundImage: {
-    opacity: 0.8, // Transparansi untuk menciptakan efek blur
+    opacity: 0.9, // Transparansi untuk menciptakan efek blur
     filter: "blur(5px)", // Blur untuk web
   },
   container: {
     padding: 20,
-    paddingTop: 50,
+    paddingTop: 70,
   },
   backButton: {
     marginBottom: 20,

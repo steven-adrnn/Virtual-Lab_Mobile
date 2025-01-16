@@ -19,14 +19,12 @@ const AboutScreen = () => {
     <ImageBackground
       source={require("../../assets/images/4882066 (1).jpg")} // Pastikan jalur ini benar
       style={styles.background}
+      imageStyle={styles.backgroundImage}
     >
       {/* Lapisan blur manual */}
-      <View style={styles.blurOverlay} />
       <ScrollView style={styles.container}>
+        
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => console.log("Go Back")}>
-            <Ionicons name="arrow-back-sharp" size={24} color="white" />
-          </TouchableOpacity>
           <Text style={styles.title}>
             Tentang Virtual Lab: Sorting Algorithm
           </Text>
@@ -83,19 +81,11 @@ const AboutScreen = () => {
               profesional dalam memahami algoritma pengurutan dengan lebih baik.
             </Text>
           </View>
-          <Button
-            text="Logout"
-            onPress={async () => {
-              const { error } = await supabase.auth.signOut();
-              if (!error) {
-                alert("Signed out!");
-              }
-              if (error) {
-                alert(error.message);
-              }
-            }}
-          />
         </View>
+        <Text></Text>
+        <Text></Text>
+        <Text></Text>
+        <Text></Text>
       </ScrollView>
     </ImageBackground>
   );
@@ -111,13 +101,14 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  blurOverlay: {
-    ...StyleSheet.absoluteFillObject, // Menutupi seluruh layar
-    backgroundColor: "rgba(255, 255, 255, 0.2)", // Transparansi untuk efek buram
-    zIndex: 1, // Pastikan lapisan ini berada di atas gambar
+  backButton: {
+    marginBottom: 20,
   },
+  
   container: {
     padding: 20,
+    paddingTop: 70,
+    
     zIndex: 2, // Pastikan konten berada di atas lapisan blur
   },
   header: {
@@ -141,6 +132,10 @@ const styles = StyleSheet.create({
   },
   aboutContent: {
     marginTop: 10,
+  },
+  backgroundImage: {
+    opacity: 0.9, // Transparansi untuk menciptakan efek blur
+    filter: "blur(5px)", // Blur untuk web
   },
   card: {
     marginBottom: 20,

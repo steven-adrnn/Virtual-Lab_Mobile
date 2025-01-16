@@ -7,8 +7,11 @@ import {
   FlatList,
   Alert,
   ImageBackground,
+  ScrollView,
 } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { MainStackParamList } from "../types/navigation";
 
 interface Question {
   question: string;
@@ -16,12 +19,13 @@ interface Question {
   correctAnswer: string;
 }
 
-const QuizScreen: React.FC = () => {
+const QuizScreen: React.FC = (navigation) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   const [score, setScore] = useState<number>(0);
   const [timer, setTimer] = useState<number>(30);
   const [answerSelected, setAnswerSelected] = useState<boolean>(false);
   const [quizFinished, setQuizFinished] = useState<boolean>(false);
+  const [quizStarted, setQuizStarted] = useState<boolean>(false); // New state for quiz start
 
   const questions: Question[] = [
     {
@@ -97,15 +101,20 @@ const QuizScreen: React.FC = () => {
     loadState();
   }, []);
 
+  // Reset quizStarted when component mounts
+  useEffect(() => {
+    setQuizStarted(false);
+  }, []);
+
   // Timer
   useEffect(() => {
-    if (timer > 0 && !answerSelected && !quizFinished) {
+    if (timer > 0 && !answerSelected && !quizFinished && quizStarted) { // Check if quiz has started
       const interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
       return () => clearInterval(interval);
     } else if (timer === 0 && !answerSelected) {
       handleNoAnswer();
     }
-  }, [timer, answerSelected, quizFinished]);
+  }, [timer, answerSelected, quizFinished, quizStarted]); // Include quizStarted in dependencies
 
   const handleAnswer = async (selectedOption: string): Promise<void> => {
     if (answerSelected) return;
@@ -156,6 +165,7 @@ const QuizScreen: React.FC = () => {
     setTimer(30);
     setAnswerSelected(false);
     setQuizFinished(false);
+    setQuizStarted(false);
     await AsyncStorage.removeItem("quizState"); // Clear saved state
   };
 
@@ -177,14 +187,36 @@ const QuizScreen: React.FC = () => {
         style={styles.background}
         imageStyle={styles.imageStyle}
       >
+        <ScrollView style={styles.container}>
+          <View style={styles.overlay} />
+          <View>
+            <Text style={styles.scoretitle}>Kuis Selesai!</Text>
+            <Text style={styles.score}>
+              Skor Anda: {score} dari {questions.length}
+            </Text>
+            <TouchableOpacity style={styles.startButton} onPress={restartQuiz}>
+              <Text style={styles.startButtonText}>Mulai Ulang</Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
+      </ImageBackground>
+    );
+  }
+
+  if (!quizStarted) {
+    return (
+      <ImageBackground
+        source={require("../../assets/images/4882066 (1).jpg")}
+        style={styles.background}
+        imageStyle={styles.imageStyle}
+      >
         <View style={styles.overlay} />
         <View style={styles.container}>
-          <Text style={styles.title}>Kuis Selesai!</Text>
-          <Text style={styles.score}>
-            Skor Anda: {score} dari {questions.length}
-          </Text>
-          <TouchableOpacity style={styles.startButton} onPress={restartQuiz}>
-            <Text style={styles.startButtonText}>Mulai Ulang</Text>
+          <TouchableOpacity
+            onPress={() => setQuizStarted(true)} // Start the quiz
+            style={styles.startButton}
+          >
+            <Text style={styles.startButtonText}>Mulai Kuis</Text>
           </TouchableOpacity>
         </View>
       </ImageBackground>
@@ -200,6 +232,7 @@ const QuizScreen: React.FC = () => {
       <View style={styles.overlay} />
       <View style={styles.container}>
         {/* Header */}
+        
         <View style={styles.header}>
           <Text style={styles.title}>Kuis: Virtual Lab</Text>
           <Text style={styles.subtitle}>
@@ -262,8 +295,12 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
   },
+  backButton: {
+    marginBottom: 20,
+  },
   imageStyle: {
-    opacity: 0.8,
+    opacity: 0.9,
+    filter: "blur(5px)",
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
@@ -272,6 +309,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    paddingTop: 70,
     zIndex: 1,
   },
   header: {
@@ -337,6 +375,13 @@ const styles = StyleSheet.create({
   },
   score: {
     fontSize: 20,
+    fontWeight: "bold",
+    color: "white",
+    textAlign: "center",
+    marginVertical: 20,
+  },
+  scoretitle: {
+    fontSize: 24,
     fontWeight: "bold",
     color: "white",
     textAlign: "center",

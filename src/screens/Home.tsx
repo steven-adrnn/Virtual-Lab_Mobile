@@ -21,13 +21,8 @@ const HomeScreen: React.FC<
     <ImageBackground
       source={require("../../assets/images/4882066 (1).jpg")}
       style={styles.background}
+      imageStyle={styles.backgroundImage}
     >
-      <BlurView
-        intensity={65}
-        style={styles.blurOverlay}
-      />
-      <View style={styles.overlay} />
-
       <ScrollView style={styles.container}>
         <View style={styles.heroSection}>
           <Text style={styles.heroTitle}>Virtual Lab: Sorting Algorithm</Text>
@@ -43,7 +38,7 @@ const HomeScreen: React.FC<
             style={styles.featureCard}
           >
             <ImageBackground
-              source={require("../../assets/images/4882066 (1).jpg")}
+              source={require("../../assets/images/8552601.jpg")}
               style={styles.featureBackground}
             >
               <View style={styles.featureContent}>
@@ -82,7 +77,27 @@ const HomeScreen: React.FC<
               </View>
             </ImageBackground>
           </TouchableOpacity>
+          
         </View>
+        <Button
+          text="Logout"
+          onPress={async () => {
+            const { error } = await supabase.auth.signOut();
+            if (!error) {
+              alert("Signed out!");
+            }
+            if (error) {
+              alert(error.message);
+            }
+          }}
+        />
+
+        <Text></Text>
+        <Text></Text>
+        <Text></Text>
+        <Text></Text>
+        <Text></Text>
+
       </ScrollView>
     </ImageBackground>
   );
@@ -101,18 +116,16 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
   },
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    zIndex: 1,
-  },
+  
   container: {
     flex: 1,
     zIndex: 2,
+    padding: 15,
+    paddingTop: 70,
+  },
+  backgroundImage: {
+    opacity: 0.9, // Transparansi untuk menciptakan efek blur
+    filter: "blur(5px)", // Blur untuk web
   },
   heroSection: {
     backgroundColor: 'rgba(2, 169, 247, 0.9)',
@@ -162,7 +175,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   featureContent: {
-    backgroundColor: 'rgba(76, 76, 84, 0.7)',
+    backgroundColor: 'rgba(0, 0, 0, 0.85)',
     padding: 15,
   },
   featureTitle: {
