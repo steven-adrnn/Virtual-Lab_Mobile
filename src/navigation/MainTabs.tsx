@@ -27,7 +27,7 @@ const MainTabs = () => {
         },
         tabBarShowLabel: false, // **Hapus label default**
         tabBarIcon: ({ focused, color }) => {
-          let iconName;
+          let iconName: "key" | "search" | "repeat" | "link" | "at" | "filter" | "push" | "map" | "scale" | "home" | "home-outline" | "information-circle" | "information-circle-outline" | "rocket" | "rocket-outline" | "create" | "create-outline" | "school" | "school-outline" | undefined;
 
           // Set icon based on route name
           if (route.name === "Home") {

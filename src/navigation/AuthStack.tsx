@@ -1,11 +1,11 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-
+import { AuthStackParamList } from "../types/navigation"; // Ensure this import is correct
 import Login from "../screens/auth/Login";
 import Register from "../screens/auth/Register";
 import ForgetPassword from "../screens/auth/ForgetPassword";
 
-const AuthStack = createNativeStackNavigator();
+const AuthStack = createNativeStackNavigator<AuthStackParamList>();
 const Auth = () => {
   return (
     <AuthStack.Navigator

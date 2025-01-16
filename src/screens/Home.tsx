@@ -15,7 +15,7 @@ import {
 import { BlurView } from "expo-blur";
 
 const HomeScreen: React.FC<
-  NativeStackScreenProps<MainStackParamList, "MainTabs">
+  NativeStackScreenProps<MainStackParamList>
 > = ({ navigation }) => {
   return (
     <ImageBackground
