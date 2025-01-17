@@ -8,9 +8,13 @@ This project was developed by:
 ## Project Description
 Virtual Lab Mobile is a TypeScript template starter that provides a seamless authentication flow using Supabase and React Navigation. It allows users to navigate through various screens while managing their authentication state effectively.
 
-Mobile App: https://expo.dev/artifacts/eas/bpoqf8rE7fsU86jjfenMC6.apk
+Mobile App:
+- https://expo.dev/artifacts/eas/bpoqf8rE7fsU86jjfenMC6.apk
 
-Web App: https://virtuallab.expo.app
+Web App: 
+- https://virtuallab.expo.app
+- https://frontend-indol-psi-15.vercel.app
+
 
 ## Tech Stack
 - **Frontend**: React, TypeScript
