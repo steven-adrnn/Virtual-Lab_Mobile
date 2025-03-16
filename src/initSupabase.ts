@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createClient } from "@supabase/supabase-js";
 
-export const supabase = createClient("https://wloopuwaklzhprojamfg.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indsb29wdXdha2x6aHByb2phbWZnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzY4NzM4NjAsImV4cCI6MjA1MjQ0OTg2MH0.ySYSSWUWOgyoY_tQAIv0oCzlRbkLZ7qo-lMkc3X0eyo", {
+export const supabase = createClient("https://lfawmlfblqyocweylumt.supabase.co", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxmYXdtbGZibHF5b2N3ZXlsdW10Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIxMTE0MzIsImV4cCI6MjA1NzY4NzQzMn0.DNavgFln2POvp2RRS-Ccd0l3v6fyIzrCHFRiNWleVP4", {
   localStorage: AsyncStorage as any,
   detectSessionInUrl: false // Prevents Supabase from evaluating window.location.href, breaking mobile
 });
