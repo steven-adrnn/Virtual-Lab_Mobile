@@ -1,10 +1,5 @@
 # Virtual Lab Mobile
 
-## Developer
-This project was developed by:
-- Viktor Arsindiantoro S. - 18222083
-- Steven Adrian Corne - 18222101
-
 ## Project Description
 Virtual Lab Mobile is a TypeScript template starter that provides a seamless authentication flow using Supabase and React Navigation. It allows users to navigate through various screens while managing their authentication state effectively.
 
