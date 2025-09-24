@@ -1,0 +1,41 @@
+{
+  "expo": {
+    "name": "virtuallabmobile",
+    "slug": "virtuallabmobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/adaptive-icon-rill.png",
+    "splash": {
+      "image": "./assets/adaptive-icon-rill.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#257DDB"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.stevenadrnn.virtuallabmobile"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon-rill.png",
+        "backgroundColor": "#257DDB"
+      },
+      "package": "com.stevenadrnn.virtuallabmobile"
+    },
+    "web": {
+      "favicon": "./assets/adaptive-icon-rill.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "155fee95-66a6-4a76-a927-605c3c90fd56"
+      }
+    },
+    "owner": "steven-adrn",
+    "newArchEnabled": true
+  }
+}
